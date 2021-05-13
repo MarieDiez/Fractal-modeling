@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from scipy import ndimage
 from multiprocessing import Process
-import os
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -338,8 +337,8 @@ class enhance_img:
         # original image 
         fig = plt.figure()
         plt.imshow(self.img,cmap='gray')
-        #plt.show()
-        fig.savefig("results/image_original.jpg", bbox_inches='tight', pad_inches=0)
+        plt.show()
+        fig.savefig("image_original.jpg")
         
         # parameters
         print("Compress")
@@ -350,16 +349,16 @@ class enhance_img:
         self.g=self.modeled_image(Di_for_Ri,o,s, angles, directs)
         fig = plt.figure()
         plt.imshow(self.g,cmap='gray')
-        #plt.show()
-        fig.savefig("results/image_modeled.jpg", bbox_inches='tight', pad_inches=0)
+        plt.show()
+        fig.savefig("image_modeled.jpg")
         
         # enhance image
         print("Enhance")
         self.enhance_image()
         fig = plt.figure()
         plt.imshow(self.f3,cmap='gray')
-        #plt.show()
-        fig.savefig("results/image_enhance.jpg", bbox_inches='tight', pad_inches=0)
+        plt.show()
+        fig.savefig("image_enhance.jpg")
         
         return self.f3
     
@@ -522,16 +521,14 @@ class enhance_img:
         return img_neigh
 
 t = time.time()
+#img = np.array(Image.open('img.png'))
 
 #data = np.load('archive/cv10_data/cv10_data.npy')
 #img=data[0]
 
-if not os.path.isdir(("{}/results".format(os.getcwd()))):
-    os.mkdir("{}/results".format(os.getcwd()))
-#img = np.array(Image.open('run/img_test.png'))
-#img = np.array(Image.open('run/img_archive.png'))
+#img = np.array(Image.open('image.png'))
 img = np.array(Image.open('run/img_papier.png'))
 
-enhance_im_ = enhance_img(img,size_square_R=8, tol=6, size=32)
+enhance_im_ = enhance_img(img,size_square_R=32, tol=6, size=512)
 enhance_im = enhance_im_.enhance()
 print(time.time()-t)
