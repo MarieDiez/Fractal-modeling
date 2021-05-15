@@ -338,7 +338,7 @@ class enhance_img:
         # original image 
         fig = plt.figure()
         plt.imshow(self.img,cmap='gray')
-        #plt.show()
+        #plt.show() # decomment for notebook
         fig.savefig("results/image_original.jpg", bbox_inches='tight', pad_inches=0)
         
         # parameters
@@ -350,7 +350,7 @@ class enhance_img:
         self.g=self.modeled_image(Di_for_Ri,o,s, angles, directs)
         fig = plt.figure()
         plt.imshow(self.g,cmap='gray')
-        #plt.show()
+        #plt.show() # decomment for notebook
         fig.savefig("results/image_modeled.jpg", bbox_inches='tight', pad_inches=0)
         
         # enhance image
@@ -358,7 +358,7 @@ class enhance_img:
         self.enhance_image()
         fig = plt.figure()
         plt.imshow(self.f3,cmap='gray')
-        #plt.show()
+        #plt.show() # decomment for notebook
         fig.savefig("results/image_enhance.jpg", bbox_inches='tight', pad_inches=0)
         
         return self.f3
@@ -523,15 +523,22 @@ class enhance_img:
 
 t = time.time()
 
-#data = np.load('archive/cv10_data/cv10_data.npy')
-#img=data[0]
-
 if not os.path.isdir(("{}/results".format(os.getcwd()))):
     os.mkdir("{}/results".format(os.getcwd()))
 #img = np.array(Image.open('run/img_test.png'))
 #img = np.array(Image.open('run/img_archive.png'))
 img = np.array(Image.open('run/img_papier.png'))
 
+#  you must choose a size size_square_R such that twice this value divides the whole image of size size so that the range square and the domains squares divides the image and multiple of 8.
+# with X ranging from 1 to 10
+# for example size_square_R = 8 and size = 32 : 8x2=16 and 32/16 = 2 ok
+# size_square_R=8, tol=X, size=32 ect...
+# size_square_R=8, tol=X, size=48 ect...
+# size_square_R=8, size_square_R=16, tol=X, size=64 ect...
+# size_square_R=8, size_square_R=16, tol=X, size=96 ect...
+# size_square_R=8, size_square_R=16, size_square_R=32, tol=X, size=256 ect...
+# size_square_R=8, size_square_R=16, size_square_R=32, tol=X, size=512 ect...
+# ect...
 enhance_im_ = enhance_img(img,size_square_R=8, tol=6, size=32)
 enhance_im = enhance_im_.enhance()
 print(time.time()-t)
